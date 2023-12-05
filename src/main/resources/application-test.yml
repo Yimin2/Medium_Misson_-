@@ -1,0 +1,13 @@
+spring:
+  output:
+    ansi:
+      enabled: always
+  datasource:
+    url: jdbc:h2:mem:medium_test;MODE=MYSQL
+  jpa:
+    hibernate:
+      ddl-auto: create
+custom:
+  tempDirPath: /Users/mingulee/Desktop/데스크탑 - MINGU의 MacBook Air/medium_test/temp
+  genFile:
+    dirPath: /Users/mingulee/Desktop/데스크탑 - MINGU의 MacBook Air/medium_test
