@@ -1,7 +1,7 @@
-package com.ll.medium;
+package com.ll.medium.domain.home.home.controller;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+        import org.springframework.boot.SpringApplication;
+        import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class MediumApplication {

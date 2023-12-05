@@ -1,4 +1,4 @@
-package com.ll.medium.domain.home.home.controller;
+package com.ll.medium;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
