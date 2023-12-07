@@ -27,15 +27,17 @@ public class MemberController {
         if (bindingResult.hasErrors()) {
             return "domain/home/home/join_form";
         }
-
         if (!memberJoinForm.getPassword().equals(memberJoinForm.getPasswordConfirm())) {
             bindingResult.rejectValue("passwordconfirm", "passwordInCorrect",
                     "2개의 패스워드가 일치하지 않습니다.");
             return "domain/home/home/join_form";
         }
-
         memberService.join(memberJoinForm.getUsername(), memberJoinForm.getPassword());
-
         return "redirect:/";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "domain/home/home/login_form";
     }
 }
