@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @Entity
 
-public class SiteMember {
+public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

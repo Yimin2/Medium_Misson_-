@@ -11,8 +11,8 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     // userRepository를 사용하여 User 데이터를 생성하는 join 메서드
-    public SiteMember join(String username, String password) {
-        SiteMember member = new SiteMember();
+    public Member join(String username, String password) {
+        Member member = new Member();
         member.setUsername(username);
         // 시큐리티 암호화 사용
         member.setPassword(passwordEncoder.encode(password));
