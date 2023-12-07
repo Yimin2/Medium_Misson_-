@@ -7,6 +7,7 @@
         <div class="mt-5 sm:mx-auto sm:w-full sm:max-w-sm ">
             <form th:action="@{/member/join}" th:object="${memberJoinForm}" method="post" class="space-y-6">
                 <!--// 폼 에러메세지 출력-->
+                <div th:replace="~{domain/home/home/form_errors :: formErrorsFragment}"></div>
                 <div>
                     <label for="username" class="label-text">사용자ID</label>
                     <div class="mt-2">
