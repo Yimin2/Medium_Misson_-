@@ -1,0 +1,37 @@
+<html layout:decorate="~{domain/home/home/layout}">
+<div layout:fragment="content">
+    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+            <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">질문 등록</h2>
+        </div>
+        <div class="mt-5 sm:mx-auto sm:w-full sm:max-w-sm ">
+            <form th:action="@{/post/write}" th:object="${questionForm}" method="post" class="space-y-6">
+                <div th:replace="~{domain/home/home/form_errors :: formErrorsFragment}"></div>
+                <!-- title -->
+                <div>
+                    <div class="flex items-center justify-between">
+                        <label for="title" class="label-text">제목</label>
+                    </div>
+                    <div class="mt-2">
+                        <input id="title" name="title" th:field="*{title}" class=" input input-bordered w-full" placeholder="제목을 입력해주세요.">
+                    </div>
+                </div>
+                <!-- body -->
+                <div>
+                    <div class="flex items-center justify-between">
+                        <label for="body" class="label-text">내용</label>
+                    </div>
+                    <div class="mt-2">
+                        <textarea id="body" name="body" th:field="*{body}" class="textarea textarea-bordered w-full" placeholder="내용을 입력해주세요.">
+                        </textarea>
+                    </div>
+                </div>
+                <!-- submit -->
+                <div>
+                    <button type="submit" class="w-full btn btn-active">등록하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</html>

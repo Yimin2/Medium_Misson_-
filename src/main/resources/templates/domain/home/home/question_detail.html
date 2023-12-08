@@ -1,0 +1,41 @@
+<html layout:decorate="~{domain/home/home/layout}">
+<div layout:fragment="content">
+  <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+      <!-- 질문 -->
+      <h1 class="text-5xl font-bold py-5" th:text="${question.title}"></h1>
+      <div class="chat chat-start py-5">
+        <div class="chat-bubble">
+          <h1 style="white-space: pre-line;" th:text="${question.body}"></h1>
+          <div class="text-xs chat-footer opacity-50" th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></div>
+        </div>
+      </div>
+
+      <div tabindex="0" class="collapse collapse-arrow border border-base-300 bg-base-200">
+        <!-- 답변 개수 표시 -->
+        <div class="collapse-title text-xl font-medium">
+          <h5 th:text="|${#lists.size(question.answerList)}개의 답변이 있습니다.|"></h5>
+        </div>
+        <!-- 답변 내용 반복 -->
+        <div class="collapse-content">
+          <div class="chat chat-end">
+            <div class="chat-bubble">
+              <div th:each="answer : ${question.answerList}">
+                <h1 style="white-space: pre-line;" th:text="${answer.body}"></h1>
+                <div class="text-xs chat-footer opacity-50" th:text="${#temporals.format(answer.createDate, 'yyyy-MM-dd HH:mm')}"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 답변 입력 -->
+      <div class = "py-5">
+        <form th:action="@{|/post/write/${question.id}|}" method="post" class="flex flex-col">
+          <textarea class="textarea textarea-bordered" placeholder="텍스트를 입력해주세요." name="content" id="content"></textarea>
+          <button class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg my-3">답변 등록</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</html>

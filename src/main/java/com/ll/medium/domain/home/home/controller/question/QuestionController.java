@@ -1,13 +1,17 @@
 package com.ll.medium.domain.home.home.controller.question;
 
+import com.ll.medium.domain.home.home.controller.answer.AnswerForm;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/post")
 public class QuestionController {
     private final QuestionService questionService;
@@ -16,6 +20,27 @@ public class QuestionController {
     public String list(Model model) {
         List<Question> questionList = this.questionService.getList();
         model.addAttribute("questionList", questionList);
-        return "post_list";
+        return "domain/home/home/question_list";
+    }
+
+    @GetMapping(value = "/detail/{id}")
+    public String detail(Model model, @PathVariable("id") Long id, AnswerForm answerForm) {
+        Question question = this.questionService.getQuestion(id);
+        model.addAttribute("question", question);
+        return "domain/home/home/question_detial";
+    }
+
+    @GetMapping("/write")
+    public String questionWrite(QuestionForm questionForm) {
+        return "domain/home/home/question_form";
+    }
+
+    @PostMapping("/write")
+    public String questionWrite(@Valid QuestionForm questionForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "domain/home/home/question_form";
+        }
+        this.questionService.write(questionForm.getTitle(), questionForm.getBody());
+        return "redriect:/question/list";
     }
 }
