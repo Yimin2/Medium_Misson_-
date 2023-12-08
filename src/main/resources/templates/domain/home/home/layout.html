@@ -3,17 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-  <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.0.8/dist/full.min.css" rel="stylesheet" type="text/css"/>
   <!-- 데이지ui -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.0.8/dist/full.min.css" rel="stylesheet" type="text/css"/>
   <!-- 테일윈드-->
+  <script src="https://cdn.tailwindcss.com"></script>
   <title>midiumProject</title>
 </head>
-<body>
-<!-- 네비게이션바 -->
-<nav th:replace="~{domain/home/home/navbar :: navbarFragment}"></nav>
 <!-- 기본 템플릿 안에 삽입될 내용 Start -->
+<body>
+<!-- navbar -->
+<nav th:replace="~{domain/home/home/navbar :: navbarFragment}"></nav>
 <th:block layout:fragment="content"></th:block>
 <!-- 기본 템플릿 안에 삽입될 내용 End -->
 </body>

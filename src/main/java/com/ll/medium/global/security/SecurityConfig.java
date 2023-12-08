@@ -51,7 +51,7 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-    @Bean
+    @Bean // PasswordEncoder 객체를 주입받아 BCryptPasswordEncoder 객체를 직접 생성하지 않도록 Bean으로 등록
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }

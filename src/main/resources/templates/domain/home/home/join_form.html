@@ -6,38 +6,40 @@
         </div>
         <div class="mt-5 sm:mx-auto sm:w-full sm:max-w-sm ">
             <form th:action="@{/member/join}" th:object="${memberJoinForm}" method="post" class="space-y-6">
-                <!--// 폼 에러메세지 출력-->
+                <!--// TODO 폼 에러메세지 에러 수정-->
                 <div th:replace="~{domain/home/home/form_errors :: formErrorsFragment}"></div>
+                <!-- ID -->
                 <div>
                     <label for="username" class="label-text">사용자ID</label>
                     <div class="mt-2">
-                        <input id="username" name="username" th:field="*{username}" type="username"
+                        <input id="username" name="username" th:value="*{username}" type="username"
                                autocomplete="username" required class="input input-bordered w-full"
                                placeholder="ID를 입력해주세요.">
                     </div>
                 </div>
+                <!-- Password -->
                 <div>
                     <div class="flex items-center justify-between">
                         <label for="password" class="label-text">비밀번호</label>
                     </div>
                     <div class="mt-2">
-                        <input id="password" name="password" th:field="*{password}" type="password"
+                        <input id="password" name="password" th:value="*{password}" type="password"
                                autocomplete="current-password" required class="input input-bordered w-full"
                                placeholder="비밀번호를 입력해주세요.">
                     </div>
                 </div>
-
+                <!-- PasswordConfirm -->
                 <div>
                     <div class="flex items-center justify-between">
                         <label for="passwordConfirm" class="label-text">비밀번호 확인</label>
                     </div>
                     <div class="mt-2">
-                        <input id="passwordConfirm" name="passwordConfirm" th:field="*{passwordConfirm}" type="password"
+                        <input id="passwordConfirm" name="passwordConfirm" th:value="*{passwordConfirm}" type="password"
                                autocomplete="current-password" required class="input input-bordered w-full"
-                               placeholder="비밀번호 확인을 입력해주세요.">
+                               placeholder="비밀번호 다시 입력해주세요.">
                     </div>
                 </div>
-
+                <!-- submit -->
                 <div>
                     <button type="submit" class="w-full btn btn-active">가입하기</button>
                 </div>
