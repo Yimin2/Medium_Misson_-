@@ -1,8 +1,9 @@
 <html layout:decorate="~{domain/home/home/layout}">
 <div layout:fragment="content">
   <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-      <thead>
+    <div class="overflow-x-auto">
+      <table class="table">
+        <thead>
       <tr>
         <th>번호</th>
         <th>제목</th>
@@ -19,7 +20,7 @@
       </tr>
       </tbody>
       </table>
-      <a th:href="@{/post/write}" class="btn btn-sm my-3 mx-3">질문 등록하기</a>
+      <a th:href="@{/post/write}" class="flex items-right btn btn-ghost">질문 등록</a>
     </div>
   </div>
 </div>

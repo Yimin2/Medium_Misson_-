@@ -41,6 +41,6 @@ public class QuestionController {
             return "domain/home/home/question_form";
         }
         this.questionService.write(questionForm.getTitle(), questionForm.getBody());
-        return "redriect:/question/list";
+        return "redriect:/";
     }
 }
