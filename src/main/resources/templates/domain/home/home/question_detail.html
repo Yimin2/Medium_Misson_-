@@ -2,7 +2,7 @@
 <div layout:fragment="content">
   <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-      <!-- 질문 -->
+      <!-- 질문 내용 -->
       <h1 class="text-5xl font-bold py-5" th:text="${question.title}"></h1>
       <div class="chat chat-start py-5">
         <div class="chat-bubble">
@@ -30,7 +30,7 @@
       </div>
       <!-- 답변 입력 -->
       <div class = "py-5">
-        <form th:action="@{|/post/write/${question.id}|}" method="post" class="flex flex-col">
+        <form th:action="@{|/answer/write/${question.id}|}" method="post" class="flex flex-col">
           <textarea class="textarea textarea-bordered" placeholder="텍스트를 입력해주세요." name="content" id="content"></textarea>
           <button class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg my-3">답변 등록</button>
         </form>
