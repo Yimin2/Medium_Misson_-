@@ -27,7 +27,7 @@ public class QuestionController {
     public String detail(Model model, @PathVariable("id") Long id, AnswerForm answerForm) {
         Question question = this.questionService.getQuestion(id);
         model.addAttribute("question", question);
-        return "domain/home/home/question_detial";
+        return "domain/home/home/question_detail";
     }
 
     @GetMapping("/write")

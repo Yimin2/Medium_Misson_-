@@ -6,8 +6,8 @@
         <thead>
       <tr>
         <th>번호</th>
-        <th>제목</th>
-        <th>작성일시</th>
+        <th class="text-right">제목</th>
+        <th class="text-right">작성일시</th>
       </tr>
       </thead>
       <tbody>
@@ -16,11 +16,11 @@
         <td>
           <a th:href="@{|/post/detail/${question.id}|}" th:text="${question.title}"></a>
         </td>
-        <td th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+        <td class="text-right"th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></td>
       </tr>
       </tbody>
       </table>
-      <a th:href="@{/post/write}" class="flex items-right btn btn-ghost">질문 등록</a>
+      <a th:href="@{/post/write}" class="flex btn btn-ghost">질문 등록</a>
     </div>
   </div>
 </div>
