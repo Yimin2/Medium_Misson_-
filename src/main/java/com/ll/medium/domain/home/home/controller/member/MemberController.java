@@ -17,7 +17,7 @@ public class MemberController {
 
     @GetMapping("/join")
     public String join(MemberJoinForm memberJoinForm) {
-        return "domain/home/home/join_form";
+        return "domain/home/home/member/join_form";
     }
 
     @PostMapping("/join")
@@ -25,13 +25,13 @@ public class MemberController {
         // 회원 정보 검사, join 메서드의 회원정보를 @Valid로 객체 유효성 검사, BindingResult로 검사 결과 저장
         if (bindingResult.hasErrors()) {
             // 객체 유효성 검사, 오류가 있으면 가입페이지 리턴
-            return "domain/home/home/join_form";
+            return "domain/home/home/member/join_form";
         }
         if (!memberJoinForm.getPassword().equals(memberJoinForm.getPasswordConfirm())) {
             bindingResult.rejectValue("passwordconfirm", "passwordInCorrect",
                     "2개의 패스워드가 일치하지 않습니다.");
             // password와 passwordConfirm 일치하지 않으면 메세지와 함께 가입페이지 리턴
-            return "domain/home/home/join_form";
+            return "domain/home/home/member/join_form";
         }
         memberService.join(memberJoinForm.getUsername(), memberJoinForm.getPassword());
         // 회원가입 처리
@@ -41,7 +41,7 @@ public class MemberController {
 
     @GetMapping("/login")
     public String login() {
-        return "domain/home/home/login_form";
+        return "domain/home/home/member/login_form";
     }
     // POST는 security에서 처리
 }

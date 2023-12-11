@@ -1,6 +1,6 @@
-package com.ll.medium.domain.home.home.controller.question;
+package com.ll.medium.domain.home.home.controller.article;
 
-import com.ll.medium.domain.home.home.controller.answer.Answer;
+import com.ll.medium.domain.home.home.controller.comment.Comment;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class Question {
+public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,7 +22,7 @@ public class Question {
 
     private LocalDateTime createDate;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE)
     // cascade = CascadeType.REMOVE 질문이 삭제되면 답변도 삭제
-    private List<Answer> answerList;
+    private List<Comment> commentList;
 }

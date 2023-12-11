@@ -11,16 +11,16 @@
       </tr>
       </thead>
       <tbody>
-      <tr th:each="question, loop : ${questionList}">
+      <tr th:each="article, loop : ${articleList}">
         <td th:text="${loop.count}"></td>
         <td>
-          <a th:href="@{|/post/detail/${question.id}|}" th:text="${question.title}"></a>
+          <a th:href="@{|/post/detail/${article.id}|}" th:text="${article.title}"></a>
         </td>
-        <td class="text-right"th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+        <td class="text-right"th:text="${#temporals.format(article.createDate, 'yyyy-MM-dd HH:mm')}"></td>
       </tr>
       </tbody>
       </table>
-      <a th:href="@{/post/write}" class="flex btn btn-ghost">질문 등록</a>
+      <a th:href="@{/post/write}" class="flex btn btn-ghost">글 등록</a>
     </div>
   </div>
 </div>
