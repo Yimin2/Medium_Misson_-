@@ -1,8 +1,11 @@
 package com.ll.medium.domain.home.home.controller.member;
 
+import com.ll.medium.domain.home.home.controller.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -19,5 +22,14 @@ public class MemberService {
         // BCryptPasswordEncoder 객체를 직접 생성하지 않고, 빈으로 등록 후 객체를 주입받아 사용
         this.memberRepository.save(member);
         return member;
+    }
+
+    public Member getMember(String username) {
+        Optional<Member> member = this.memberRepository.findByusername(username);
+        if (member.isPresent()) {
+            return member.get();
+        } else {
+            throw new DataNotFoundException("member not found");
+        }
     }
 }

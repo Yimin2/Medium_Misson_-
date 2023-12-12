@@ -1,6 +1,7 @@
 package com.ll.medium.domain.home.home.controller.comment;
 
 import com.ll.medium.domain.home.home.controller.article.Article;
+import com.ll.medium.domain.home.home.controller.member.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,4 +22,7 @@ public class Comment {
 
     @ManyToOne
     private Article article; // 질문 엔티티를 참조하기 위해
+
+    @ManyToOne
+    private Member author;
 }

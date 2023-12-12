@@ -1,6 +1,7 @@
 package com.ll.medium.domain.home.home.controller.comment;
 
 import com.ll.medium.domain.home.home.controller.article.Article;
+import com.ll.medium.domain.home.home.controller.member.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +13,12 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
 
-    public void write(Article article, String body) {
-        Comment answer = new Comment();
-        answer.setBody(body);
-        answer.setCreateDate(LocalDateTime.now());
-        answer.setArticle(article);
-        this.commentRepository.save(answer);
+    public void write(Article article, String body, Member author) {
+        Comment comment = new Comment();
+        comment.setBody(body);
+        comment.setCreateDate(LocalDateTime.now());
+        comment.setArticle(article);
+        comment.setAuthor(author);
+        this.commentRepository.save(comment);
     }
 }

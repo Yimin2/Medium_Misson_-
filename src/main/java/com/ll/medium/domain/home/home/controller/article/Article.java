@@ -1,6 +1,7 @@
 package com.ll.medium.domain.home.home.controller.article;
 
 import com.ll.medium.domain.home.home.controller.comment.Comment;
+import com.ll.medium.domain.home.home.controller.member.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,4 +26,7 @@ public class Article {
     @OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE)
     // cascade = CascadeType.REMOVE 질문이 삭제되면 답변도 삭제
     private List<Comment> commentList;
+
+    @ManyToOne
+    private Member author;
 }
