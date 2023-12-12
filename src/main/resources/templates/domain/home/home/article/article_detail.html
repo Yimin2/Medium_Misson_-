@@ -18,12 +18,12 @@
                 <h1 class="text-3xl mx-2 mt-3 mb-20" th:text="${article.body}"></h1>
                 <!-- 내용 수정-->
                 <div class="my-3 flex justify-end">
-                    <a th:href="@{|/post/modify/${article.id}|}" class="btn btn-sm btn-ghost"
+                    <a th:href="@{|/post/${article.id}/modify|}" class="btn btn-sm btn-ghost"
                        sec:authorize="isAuthenticated()"
                        th:if="${article.author != null and #authentication.getPrincipal().getUsername() == article.author.username}"
                        th:text="수정"></a>
                 <!-- 내용 삭제-->
-                <a href="javascript:void(0);" th:data-uri="@{|/post/delete/${article.id}|}"
+                <a href="javascript:void(0);" th:data-uri="@{|/post/${article.id}/delete|}"
                    class="delete btn btn-sm btn-ghost" sec:authorize="isAuthenticated()"
                    th:if="${article.author != null and #authentication.getPrincipal().getUsername() == article.author.username}"
                    th:text="삭제"></a>

@@ -30,7 +30,7 @@ public class ArticleController {
         return "domain/home/home/article/article_list";
     }
 
-    @GetMapping(value = "/detail/{id}")
+    @GetMapping(value = "/{id}")
     public String detail(Model model, @PathVariable("id") Long id, CommentForm answerForm) {
         Article article = this.articleService.getArticle(id);
         model.addAttribute("article", article);
@@ -55,7 +55,7 @@ public class ArticleController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/modify/{id}")
+    @GetMapping("/{id}/modify")
     public String articleModify(ArticleForm articleForm, @PathVariable("id") Long id, Principal principal) {
         Article article = this.articleService.getArticle(id);
         if(!article.getAuthor().getUsername().equals(principal.getName())) {
@@ -66,7 +66,7 @@ public class ArticleController {
         return "domain/home/home/article/article_form";
     }
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("/modify/{id}")
+    @PostMapping("/{id}/modify")
     public String articleModify(@Valid ArticleForm articleForm, BindingResult bindingResult, @PathVariable("id") Long id, Principal principal) {
         if (bindingResult.hasErrors()) {
             return "domain/home/home/aritcle/article_form";
@@ -76,10 +76,10 @@ public class ArticleController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정권한이 없습니다.");
         }
         this.articleService.modify(article, articleForm.getTitle(), articleForm.getBody());
-        return String.format("redirect:/post/detail/%s", id);
+        return String.format("redirect:/post/%s", id);
     }
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/delete/{id}")
+    @GetMapping("/{id}/delete")
     public String articleDelete(Principal principal, @PathVariable("id") Long id) {
         Article article = this.articleService.getArticle(id);
         if (!article.getAuthor().getUsername().equals(principal.getName())) {
