@@ -16,11 +16,17 @@
             <!-- 내용 -->
             <div >
                 <h1 class="text-3xl mx-2 mt-3 mb-20" th:text="${article.body}"></h1>
+                <!-- 내용 수정-->
                 <div class="my-3 flex justify-end">
                     <a th:href="@{|/post/modify/${article.id}|}" class="btn btn-sm btn-ghost"
                        sec:authorize="isAuthenticated()"
                        th:if="${article.author != null and #authentication.getPrincipal().getUsername() == article.author.username}"
                        th:text="수정"></a>
+                <!-- 내용 삭제-->
+                <a href="javascript:void(0);" th:data-uri="@{|/post/delete/${article.id}|}"
+                   class="delete btn btn-sm btn-ghost" sec:authorize="isAuthenticated()"
+                   th:if="${article.author != null and #authentication.getPrincipal().getUsername() == article.author.username}"
+                   th:text="삭제"></a>
                 </div>
             </div>
             <!-- 댓글 -->
@@ -61,4 +67,14 @@
         </div>
     </div>
 </div>
+<script layout:fragment="script" type='text/javascript'>
+    const delete_elements = document.getElementsByClassName("delete");
+    Array.from(delete_elements).forEach(function(element) {
+        element.addEventListener('click', function() {
+            if(confirm("정말로 삭제하시겠습니까?")) {
+                location.href = this.dataset.uri;
+            };
+        });
+    });
+</script>
 </html>

@@ -27,7 +27,7 @@ public class ArticleService {
         }
     }
 
-    public  void write(String title, String body, Member member) {
+    public void write(String title, String body, Member member) {
         Article article = new Article();
         article.setTitle(title);
         article.setBody(body);
@@ -36,10 +36,13 @@ public class ArticleService {
         this.articleRepository.save(article);
     }
 
-    public  void modify(Article article, String title, String body) {
+    public void modify(Article article, String title, String body) {
         article.setTitle(title);
         article.setBody(body);
         article.setModifyDate(LocalDateTime.now());
         this.articleRepository.save(article);
+    }
+    public void delete(Article article) {
+        this.articleRepository.delete(article);
     }
 }
