@@ -5,11 +5,13 @@ import com.ll.medium.domain.home.home.controller.member.Member;
 import com.ll.medium.domain.home.home.controller.member.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.List;
@@ -50,5 +52,30 @@ public class ArticleController {
         Member member = this.memberService.getMember(principal.getName());
         this.articleService.write(articleForm.getTitle(), articleForm.getBody(), member);
         return "redirect:/post/list";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/modify/{id}")
+    public String articleModify(ArticleForm articleForm, @PathVariable("id") Long id, Principal principal) {
+        Article article = this.articleService.getArticle(id);
+        if(!article.getAuthor().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정권한이 없습니다.");
+        }
+        articleForm.setTitle(article.getTitle());
+        articleForm.setBody(article.getBody());
+        return "domain/home/home/article/article_form";
+    }
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/modify/{id}")
+    public String articleModify(@Valid ArticleForm articleForm, BindingResult bindingResult, @PathVariable("id") Long id, Principal principal) {
+        if (bindingResult.hasErrors()) {
+            return "domain/home/home/aritcle/article_form";
+        }
+        Article article = this.articleService.getArticle(id);
+        if(!article.getAuthor().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정권한이 없습니다.");
+        }
+        this.articleService.modify(article, articleForm.getTitle(), articleForm.getBody());
+        return String.format("redirect:/post/detail/%s", id);
     }
 }

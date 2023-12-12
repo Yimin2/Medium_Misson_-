@@ -5,15 +5,23 @@
             <!-- 제목 -->
             <div>
                 <h1 class="text-5xl font-bold mx-2" th:text="${article.title}"></h1>
-                <div class="text-sm opacity-50 mb-2 flex flex-row justify-end">
+                <div class="text-sm opacity-50 my-2 flex flex-row justify-end">
                     <span th:if="${article.author != null}" th:text="${article.author.username}"></span>
                     <h5 class=mx-2>/</h5>
                     <span th:text="${#temporals.format(article.createDate, 'yyyy-MM-dd HH:mm')}"></span>
+                    <h5 class=mx-2>/</h5>
+                    <span th:text="${#temporals.format(article.modifyDate, 'yyyy-MM-dd HH:mm')}"></span>
                 </div>
             </div>
             <!-- 내용 -->
-            <div class="mb-20">
-                <h1 class="text-3xl mx-2 mt-3 mb-1" th:text="${article.body}"></h1>
+            <div >
+                <h1 class="text-3xl mx-2 mt-3 mb-20" th:text="${article.body}"></h1>
+                <div class="my-3 flex justify-end">
+                    <a th:href="@{|/post/modify/${article.id}|}" class="btn btn-sm btn-ghost"
+                       sec:authorize="isAuthenticated()"
+                       th:if="${article.author != null and #authentication.getPrincipal().getUsername() == article.author.username}"
+                       th:text="수정"></a>
+                </div>
             </div>
             <!-- 댓글 -->
             <div>
