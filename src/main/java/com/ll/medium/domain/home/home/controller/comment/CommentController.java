@@ -29,6 +29,6 @@ public class CommentController {
         Article article = this.articleService.getArticle(id);
         Member member = this.memberService.getMember(principal.getName());
         this.commentService.write(article, body, member);
-        return String.format("redirect:/post/detail/%s", id);
+        return String.format("redirect:/post/%s", id);
     }
 }
