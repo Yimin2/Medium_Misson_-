@@ -12,7 +12,7 @@ public class MemberJoinForm {
     @NotEmpty(message =  "사용자ID는 필수항목입니다.")
     private String username;
 
-    @Size(min = 8, message = "비밀번호를 최소 8자 이상 설정해주세요." )
+    @Size(min = 4, message = "비밀번호를 최소 4자 이상 설정해주세요." )
     @NotEmpty(message = "비밀번호는 필수항목입니다.")
     private String password;
 

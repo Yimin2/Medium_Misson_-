@@ -35,8 +35,8 @@ public class MemberController {
         }
         memberService.join(memberJoinForm.getUsername(), memberJoinForm.getPassword());
         // 회원가입 처리
-        return "redirect:/";
-        //성공시 기본 화면으로 리턴
+        return "redirect:/member/login";
+        //성공시 로그인 화면으로 리턴
     }
 
     @GetMapping("/login")

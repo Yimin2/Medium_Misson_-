@@ -30,6 +30,24 @@ public class ArticleController {
         return "domain/home/home/article/article_list";
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/myList")
+    public String myList(Model model, Principal principal) {
+        String username = principal.getName();
+        List<Article> myList = articleService.findByUsername(username);
+        model.addAttribute("articleList", myList);
+        return "domain/home/home/article/article_list";
+    }
+
+    @GetMapping("/userArticles")
+    public String viewUserArticles(@RequestParam(required = false) String username, Model model) {
+        if (username != null && !username.isEmpty()) {
+            List<Article> articles = articleService.findByUsername(username);
+            model.addAttribute("articleUserList", articles);
+        }
+        return "domain/home/home/article/user_articles"; // 검색된 게시글을 보여주는 뷰
+    }
+
     @GetMapping(value = "/{id}")
     public String detail(Model model, @PathVariable("id") Long id, CommentForm answerForm) {
         Article article = this.articleService.getArticle(id);
@@ -89,12 +107,4 @@ public class ArticleController {
         return "redirect:/post/list";
     }
 
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/myList")
-    public String myList(Model model, Principal principal) {
-        String username = principal.getName();
-        List<Article> myList = articleService.findByUsername(username);
-        model.addAttribute("articleMyList", myList);
-        return "domain/home/home/article/article_myList";
-    }
 }

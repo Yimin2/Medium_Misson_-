@@ -28,7 +28,7 @@ public class ArticleService {
     }
 
     public List<Article> findByUsername(String username) {
-        return this.articleRepository.findByAuthor_Username(username);
+        return this.articleRepository.findByAuthor_username(username);
     }
 
     public void write(String title, String body, Member member) {
