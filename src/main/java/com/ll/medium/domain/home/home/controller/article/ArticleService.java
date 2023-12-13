@@ -27,6 +27,10 @@ public class ArticleService {
         }
     }
 
+    public List<Article> findByUsername(String username) {
+        return this.articleRepository.findByAuthor_Username(username);
+    }
+
     public void write(String title, String body, Member member) {
         Article article = new Article();
         article.setTitle(title);

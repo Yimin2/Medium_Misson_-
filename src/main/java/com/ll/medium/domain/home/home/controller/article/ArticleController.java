@@ -47,7 +47,7 @@ public class ArticleController {
     @PostMapping("/write")
     public String articleWrite(@Valid ArticleForm articleForm, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
-            return "domain/home/home/aritcle/article_form";
+            return "domain/home/home/article/article_form";
         }
         Member member = this.memberService.getMember(principal.getName());
         this.articleService.write(articleForm.getTitle(), articleForm.getBody(), member);
@@ -69,7 +69,7 @@ public class ArticleController {
     @PostMapping("/{id}/modify")
     public String articleModify(@Valid ArticleForm articleForm, BindingResult bindingResult, @PathVariable("id") Long id, Principal principal) {
         if (bindingResult.hasErrors()) {
-            return "domain/home/home/aritcle/article_form";
+            return "domain/home/home/article/article_form";
         }
         Article article = this.articleService.getArticle(id);
         if(!article.getAuthor().getUsername().equals(principal.getName())) {
@@ -87,5 +87,14 @@ public class ArticleController {
         }
         this.articleService.delete(article);
         return "redirect:/post/list";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/myList")
+    public String myList(Model model, Principal principal) {
+        String username = principal.getName();
+        List<Article> myList = articleService.findByUsername(username);
+        model.addAttribute("articleMyList", myList);
+        return "domain/home/home/article/article_myList";
     }
 }
