@@ -18,7 +18,7 @@
           <a th:href="@{|/post/${article.id}|}" th:text="${article.title}"></a>
         </td>
         <td>
-          <span th:if="${article.author != null}" th:text="${article.author.username}"></span>
+          <a th:href="@{|/post/b/${article.author.username}|}" th:if="${article.author != null}" th:text="${article.author.username}"></a>
         </td>
         <td th:text="${#temporals.format(article.createDate, 'yyyy-MM-dd HH:mm')}"></td>
       </tr>

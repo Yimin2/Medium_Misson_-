@@ -39,17 +39,15 @@ public class ArticleController {
         return "domain/home/home/article/article_list";
     }
 
-    @GetMapping("/userArticles")
-    public String viewUserArticles(@RequestParam(required = false) String username, Model model) {
-        if (username != null && !username.isEmpty()) {
-            List<Article> articles = articleService.findByUsername(username);
-            model.addAttribute("articleUserList", articles);
-        }
-        return "domain/home/home/article/user_articles"; // 검색된 게시글을 보여주는 뷰
+    @GetMapping("/b/{author}")
+    public String userList(@PathVariable("author") String username, Model model) {
+        List<Article> userList = articleService.findByUsername(username);
+        model.addAttribute("articleList", userList);
+        return "domain/home/home/article/article_list";
     }
 
     @GetMapping(value = "/{id}")
-    public String detail(Model model, @PathVariable("id") Long id, CommentForm answerForm) {
+    public String detail(Model model, @PathVariable("id") Long id, CommentForm commentForm) {
         Article article = this.articleService.getArticle(id);
         model.addAttribute("article", article);
         return "domain/home/home/article/article_detail";
