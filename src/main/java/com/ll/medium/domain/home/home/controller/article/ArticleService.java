@@ -36,7 +36,9 @@ public class ArticleService {
     }
 
     public Page<Article> findByUsername(String username, int page) {
-        Pageable pageable = PageRequest.of(page, 30);
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("createDate"));
+        Pageable pageable = PageRequest.of(page, 30,Sort.by(sorts));
         return this.articleRepository.findByAuthor_username(username, pageable);
     }
 
