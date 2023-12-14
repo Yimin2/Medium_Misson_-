@@ -3,9 +3,14 @@ package com.ll.medium.domain.home.home.controller.article;
 import com.ll.medium.domain.home.home.controller.DataNotFoundException;
 import com.ll.medium.domain.home.home.controller.member.Member;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,8 +19,11 @@ import java.util.Optional;
 public class ArticleService {
     private final ArticleRepository articleRepository;
 
-    public List<Article> getList() {
-        return this.articleRepository.findAll();
+    public Page<Article> getList(int page) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("createDate"));
+        Pageable pageable = PageRequest.of(page, 30, Sort.by(sorts));
+        return this.articleRepository.findAll(pageable);
     }
 
     public Article getArticle(Long id) {
@@ -27,8 +35,9 @@ public class ArticleService {
         }
     }
 
-    public List<Article> findByUsername(String username) {
-        return this.articleRepository.findByAuthor_username(username);
+    public Page<Article> findByUsername(String username, int page) {
+        Pageable pageable = PageRequest.of(page, 30);
+        return this.articleRepository.findByAuthor_username(username, pageable);
     }
 
     public void write(String title, String body, Member member) {

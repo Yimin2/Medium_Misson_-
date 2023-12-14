@@ -12,7 +12,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr th:each="article, loop : ${articleList}">
+      <tr th:each="article, loop : ${paging}">
         <td th:text="${loop.count}"></td>
         <td>
           <a th:href="@{|/post/${article.id}|}" th:text="${article.title}"></a>
@@ -24,8 +24,35 @@
       </tr>
       </tbody>
       </table>
+      <!-- 페이징 처리 시작 -->
+      <div th:if="${!paging.isEmpty()}" class="flex justify-center my-3">
+        <!-- 이전 페이지 -->
+        <ul class="join">
+          <li class="join-item btn" th:classappend="${!paging.hasPrevious} ? 'btn-disabled'">
+            <a th:href="@{|?page=${paging.number-1}|}">
+              <span>이전</span>
+            </a>
+          </li>
+          <!-- 페이지 리스트 loop -->
+          <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+              th:if="${page >= paging.number-5 and page <= paging.number+5}"
+              class="join-item btn"
+              th:classappend="${page == paging.number} ? 'btn-active'"
+              >
+            <a th:text="${page+1}" th:href="@{|?page=${page}|}"></a>
+          </li>
+          <!-- 다음 페이지 -->
+          <li class="join-item btn" th:classappend="${!paging.hasNext} ? 'btn-disabled'">
+            <a th:href="@{|?page=${paging.number+1}|}">
+              <span>다음</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <!-- 페이징 처리 끝 -->
       <a th:href="@{/post/write}" class="flex btn btn-ghost">글 등록</a>
     </div>
   </div>
 </div>
+
 </html>

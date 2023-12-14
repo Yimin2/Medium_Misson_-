@@ -5,16 +5,16 @@ import com.ll.medium.domain.home.home.controller.member.Member;
 import com.ll.medium.domain.home.home.controller.member.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.ui.Model;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -24,25 +24,26 @@ public class ArticleController {
     private final MemberService memberService;
 
     @GetMapping("/list")
-    public String list(Model model) {
-        List<Article> articleList = this.articleService.getList(); //Article 객체 리스트, 제목, 내용, 작성자 등 정보 포함
-        model.addAttribute("articleList", articleList); // Model view에 데이터 전달, articleList라는 이름으로 호출, articleList 변수
+    public String list(Model model, @RequestParam(value = "page", defaultValue ="0") int page) {
+        Page<Article> paging = this.articleService.getList(page); //Article 객체 리스트, 제목, 내용, 작성자 등 정보 포함
+        model.addAttribute("paging", paging); //
         return "domain/home/home/article/article_list";
     }
 
     @PreAuthorize("isAuthenticated()") //인증(로그인)된 사용자만 접근 허용
     @GetMapping("/myList")
-    public String myList(Model model, Principal principal) {
-        String username = principal.getName(); // 현재 인증(로그인)된 사용자 이름
-        List<Article> articles = articleService.findByUsername(username); // 로그인된 사용자가 작성한 글 목록 가져옴
-        model.addAttribute("articleList", articles);
+    public String myList(Model model, Principal principal,
+                         @RequestParam(value = "page", defaultValue = "0") int page) {
+        Page<Article> userPaging = articleService.findByUsername(principal.getName(), page); // 로그인된 사용자가 작성한 글 목록 가져옴
+        model.addAttribute("paging", userPaging);
         return "domain/home/home/article/article_list";
     }
 
     @GetMapping("/b/{author}")
-    public String userList(@PathVariable("author") String username, Model model) { // URL 경로에서 사용자 이름 받아옴
-        List<Article> articles = articleService.findByUsername(username);
-        model.addAttribute("articleList", articles);
+    public String userList(@PathVariable("author") String username, Model model,
+                           @RequestParam(value = "page", defaultValue = "0") int page) {
+        Page<Article> userPaging = articleService.findByUsername(username, page);
+        model.addAttribute("paging", userPaging);
         return "domain/home/home/article/article_list";
     }
 
