@@ -25,28 +25,28 @@ public class ArticleController {
 
     @GetMapping("/list")
     public String list(Model model) {
-        List<Article> articleList = this.articleService.getList();
-        model.addAttribute("articleList", articleList);
+        List<Article> articleList = this.articleService.getList(); //Article 객체 리스트, 제목, 내용, 작성자 등 정보 포함
+        model.addAttribute("articleList", articleList); // Model view에 데이터 전달, articleList라는 이름으로 호출, articleList 변수
         return "domain/home/home/article/article_list";
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()") //인증(로그인)된 사용자만 접근 허용
     @GetMapping("/myList")
     public String myList(Model model, Principal principal) {
-        String username = principal.getName();
-        List<Article> myList = articleService.findByUsername(username);
-        model.addAttribute("articleList", myList);
+        String username = principal.getName(); // 현재 인증(로그인)된 사용자 이름
+        List<Article> articles = articleService.findByUsername(username); // 로그인된 사용자가 작성한 글 목록 가져옴
+        model.addAttribute("articleList", articles);
         return "domain/home/home/article/article_list";
     }
 
     @GetMapping("/b/{author}")
-    public String userList(@PathVariable("author") String username, Model model) {
-        List<Article> userList = articleService.findByUsername(username);
-        model.addAttribute("articleList", userList);
+    public String userList(@PathVariable("author") String username, Model model) { // URL 경로에서 사용자 이름 받아옴
+        List<Article> articles = articleService.findByUsername(username);
+        model.addAttribute("articleList", articles);
         return "domain/home/home/article/article_list";
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping("/{id}")
     public String detail(Model model, @PathVariable("id") Long id, CommentForm commentForm) {
         Article article = this.articleService.getArticle(id);
         model.addAttribute("article", article);
@@ -62,10 +62,11 @@ public class ArticleController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/write")
     public String articleWrite(@Valid ArticleForm articleForm, BindingResult bindingResult, Principal principal) {
-        if (bindingResult.hasErrors()) {
+        // Valid 데이터 유효성 검사
+        if (bindingResult.hasErrors()) {  // 오류 확인
             return "domain/home/home/article/article_form";
         }
-        Member member = this.memberService.getMember(principal.getName());
+        Member member = this.memberService.getMember(principal.getName()); // 로그인된 사용자의 member 객체 조회
         this.articleService.write(articleForm.getTitle(), articleForm.getBody(), member);
         return "redirect:/post/list";
     }
@@ -74,13 +75,14 @@ public class ArticleController {
     @GetMapping("/{id}/modify")
     public String articleModify(ArticleForm articleForm, @PathVariable("id") Long id, Principal principal) {
         Article article = this.articleService.getArticle(id);
-        if(!article.getAuthor().getUsername().equals(principal.getName())) {
+        if(!article.getAuthor().getUsername().equals(principal.getName())) { // 로그인한 사용자와 게시글의 작성자 일치 여부 확인
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정권한이 없습니다.");
         }
         articleForm.setTitle(article.getTitle());
         articleForm.setBody(article.getBody());
         return "domain/home/home/article/article_form";
     }
+
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/{id}/modify")
     public String articleModify(@Valid ArticleForm articleForm, BindingResult bindingResult, @PathVariable("id") Long id, Principal principal) {
@@ -94,6 +96,7 @@ public class ArticleController {
         this.articleService.modify(article, articleForm.getTitle(), articleForm.getBody());
         return String.format("redirect:/post/%s", id);
     }
+
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}/delete")
     public String articleDelete(Principal principal, @PathVariable("id") Long id) {
@@ -104,5 +107,4 @@ public class ArticleController {
         this.articleService.delete(article);
         return "redirect:/post/list";
     }
-
 }

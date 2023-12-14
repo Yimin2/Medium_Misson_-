@@ -19,11 +19,11 @@ public class ArticleService {
     }
 
     public Article getArticle(Long id) {
-        Optional<Article> article = this.articleRepository.findById(id);
-        if (article.isPresent()) {
+        Optional<Article> article = this.articleRepository.findById(id); //null 값 반환을 위해 Optional 사용
+        if (article.isPresent()) { // 값이 있는지 확인
             return article.get();
         } else {
-            throw new DataNotFoundException("article not found");
+            throw new DataNotFoundException("article not found"); //존재 하지 않음
         }
     }
 
