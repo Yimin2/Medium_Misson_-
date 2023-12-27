@@ -31,4 +31,6 @@ public class Article {
     private Member author;
 
     private LocalDateTime modifyDate;
+
+    private Boolean isPaid;
 }

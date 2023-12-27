@@ -42,19 +42,21 @@ public class ArticleService {
         return this.articleRepository.findByAuthor_username(username, pageable);
     }
 
-    public void write(String title, String body, Member member) {
+    public void write(String title, String body, Member member, Boolean isPaid) {
         Article article = new Article();
         article.setTitle(title);
         article.setBody(body);
         article.setAuthor(member);
         article.setCreateDate(LocalDateTime.now());
+        article.setIsPaid(isPaid);
         this.articleRepository.save(article);
     }
 
-    public void modify(Article article, String title, String body) {
+    public void modify(Article article, String title, String body, Boolean isPaid) {
         article.setTitle(title);
         article.setBody(body);
         article.setModifyDate(LocalDateTime.now());
+        article.setIsPaid(isPaid);
         this.articleRepository.save(article);
     }
     public void delete(Article article) {

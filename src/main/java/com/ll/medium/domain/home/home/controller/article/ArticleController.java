@@ -68,7 +68,7 @@ public class ArticleController {
             return "domain/home/home/article/article_form";
         }
         Member member = this.memberService.getMember(principal.getName()); // 로그인된 사용자의 member 객체 조회
-        this.articleService.write(articleForm.getTitle(), articleForm.getBody(), member);
+        this.articleService.write(articleForm.getTitle(), articleForm.getBody(), member, articleForm.getIsPaid());
         return "redirect:/post/list";
     }
 
@@ -81,6 +81,7 @@ public class ArticleController {
         }
         articleForm.setTitle(article.getTitle());
         articleForm.setBody(article.getBody());
+        articleForm.setIsPaid(article.getIsPaid());
         return "domain/home/home/article/article_form";
     }
 
@@ -94,7 +95,7 @@ public class ArticleController {
         if(!article.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정권한이 없습니다.");
         }
-        this.articleService.modify(article, articleForm.getTitle(), articleForm.getBody());
+        this.articleService.modify(article, articleForm.getTitle(), articleForm.getBody(), articleForm.getIsPaid());
         return String.format("redirect:/post/%s", id);
     }
 

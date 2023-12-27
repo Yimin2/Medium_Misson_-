@@ -2,6 +2,7 @@ package com.ll.medium.domain.home.home.controller.member;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,4 +45,10 @@ public class MemberController {
         return "domain/home/home/member/login_form";
     }
     // POST는 security에서 처리
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/myPage")
+    public String myPage() {
+        return "domain/home/home/member/myPage";
+    }
 }

@@ -18,4 +18,6 @@ public class Member {
     private String username;
 
     private String password;
+
+    private Boolean isPaid; // Boolean 대문자 null 값 포함, boolean 소문자 null 값 미포함
 }

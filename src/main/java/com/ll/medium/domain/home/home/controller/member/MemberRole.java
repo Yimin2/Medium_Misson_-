@@ -6,11 +6,11 @@ import lombok.Getter;
 public enum MemberRole { // enum 열거 자료형
     ADMIN("ROLE_ADMIN"),
 
-    MEMBER("ROLE_MEMBER");
+    MEMBER("ROLE_MEMBER"),
 
+    PAID_MEMBER("ROLE_PAID_MEMBER");
     MemberRole(String value) {
         this.value = value;
     }
-
     private String value;
 }
