@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.security.Principal;
 import java.util.Optional;
 
@@ -42,6 +43,8 @@ public class MemberService {
         Authentication authentication = (Authentication) principal;
 
         return authentication.getAuthorities().stream()
-                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_PREMIUM_MEMBER"));
+                .anyMatch(grantedAuthority ->
+                        grantedAuthority.getAuthority().equals("ROLE_PAID_MEMBER") ||
+                                grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
     }
 }

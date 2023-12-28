@@ -27,9 +27,12 @@ public class MemberSecurityService implements UserDetailsService {
         }
         Member member = _member.get();
         List<GrantedAuthority> authorities = new ArrayList<>();
+        boolean isPaidMember = Optional.ofNullable(member.getIsPaid()).orElse(false);
+        // isPaid가 null인 경우 false로 반환
+
         if ("admin".equals(username)) {
             authorities.add(new SimpleGrantedAuthority(MemberRole.ADMIN.getValue()));
-        } else if (member.getIsPaid()){
+        } else if (isPaidMember) {
             authorities.add(new SimpleGrantedAuthority(MemberRole.PAID_MEMBER.getValue()));
         } else {
             authorities.add(new SimpleGrantedAuthority(MemberRole.MEMBER.getValue()));

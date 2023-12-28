@@ -23,7 +23,7 @@ public class ArticleController {
     private final MemberService memberService;
 
     @GetMapping("/list")
-    public String list(Model model, @RequestParam(value = "page", defaultValue ="0") int page) {
+    public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
         Page<Article> paging = this.articleService.getList(page); //Article 객체 리스트, 제목, 내용, 작성자 등 정보 포함
         model.addAttribute("paging", paging); //
         return "domain/home/home/article/article_list";
@@ -50,10 +50,17 @@ public class ArticleController {
     public String detail(Model model, @PathVariable("id") Long id, Principal principal) {
         Article article = articleService.getArticle(id);
         model.addAttribute("article", article);
-        if (article.getIsPaid() && !memberService.hasPaidAccess(principal)) {
-            // 유료 회원 전용 게시글에 대한 접근 제한 처리
-            return "redirect:/post/list";
+        // 유료 콘텐츠 접근 검증
+        boolean hasAccess = principal != null &&
+                (article.getAuthor().getUsername().equals(principal.getName()) ||
+                        memberService.hasPaidAccess(principal));
+
+        // 유료 콘텐츠이면서 접근 권한이 없는 경우
+        if (article.getIsPaid() && !hasAccess) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "유료회원 전용 콘텐츠입니다.");
         }
+
+        // 그 외의 경우 (일반 콘텐츠 또는 유료 콘텐츠에 대한 접근 권한이 있는 경우)
         return "domain/home/home/article/article_detail";
     }
 
@@ -79,8 +86,8 @@ public class ArticleController {
     @GetMapping("/{id}/modify")
     public String articleModify(ArticleForm articleForm, @PathVariable("id") Long id, Principal principal) {
         Article article = this.articleService.getArticle(id);
-        if(!article.getAuthor().getUsername().equals(principal.getName())) { // 로그인한 사용자와 게시글의 작성자 일치 여부 확인
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정권한이 없습니다.");
+        if (!article.getAuthor().getUsername().equals(principal.getName())) { // 로그인한 사용자와 게시글의 작성자 일치 여부 확인
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         articleForm.setTitle(article.getTitle());
         articleForm.setBody(article.getBody());
@@ -95,8 +102,8 @@ public class ArticleController {
             return "domain/home/home/article/article_form";
         }
         Article article = this.articleService.getArticle(id);
-        if(!article.getAuthor().getUsername().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정권한이 없습니다.");
+        if (!article.getAuthor().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         this.articleService.modify(article, articleForm.getTitle(), articleForm.getBody(), articleForm.getIsPaid());
         return String.format("redirect:/post/%s", id);
