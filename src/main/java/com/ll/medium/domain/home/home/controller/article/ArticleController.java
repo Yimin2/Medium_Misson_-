@@ -50,18 +50,18 @@ public class ArticleController {
     public String detail(Model model, @PathVariable("id") Long id, Principal principal) {
         Article article = articleService.getArticle(id);
         model.addAttribute("article", article);
-        // 유료 콘텐츠 접근 검증
-        boolean hasAccess = principal != null &&
-                (article.getAuthor().getUsername().equals(principal.getName()) ||
-                        memberService.hasPaidAccess(principal));
-
-        // 유료 콘텐츠이면서 접근 권한이 없는 경우
-        if (article.getIsPaid() && !hasAccess) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "유료회원 전용 콘텐츠입니다.");
+        if (article.getAuthor().getUsername().equals(principal.getName())) {
+            return "domain/home/home/article/article_detail";
+        } else if (article.getIsPaid()) {
+            if (!memberService.hasPaidAccess(principal)) {
+                // 유료 회원 전용 게시글에 대한 접근 제한 처리
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "유료회원 전용 콘텐츠입니다.");
+            } else {
+                return "domain/home/home/article/article_detail";
+            }
+        } else {
+            return "domain/home/home/article/article_detail";
         }
-
-        // 그 외의 경우 (일반 콘텐츠 또는 유료 콘텐츠에 대한 접근 권한이 있는 경우)
-        return "domain/home/home/article/article_detail";
     }
 
     @PreAuthorize("isAuthenticated()")

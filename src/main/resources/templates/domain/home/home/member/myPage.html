@@ -1,11 +1,29 @@
 <html layout:decorate="~{domain/home/home/layout}">
 <div layout:fragment="content">
-  <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-      <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">마이페이지</h2>
+    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+            <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">마이페이지</h2>
+        </div>
+        <div class="mt-5 sm:mx-auto sm:w-full sm:max-w-sm ">
+            <!-- form -->
+            <form th:action="@{/member/myPage}" th:object="${memberUpdateForm}" method="post" class="space-y-6">
+                <div th:replace="~{domain/home/home/form_errors :: formErrorsFragment}"></div>
+                <!-- ID -->
+                <div class="flex items-center justify-center relative">
+                    <label for="username" class="label-text absolute left-0">사용자ID</label>
+                    <a class="text-center font-bold" th:text="${username}"></a>
+                </div>
+                <!-- PaidMember -->
+                <div class="flex items-center justify-center relative">
+                    <label class="label-text absolute left-0" for="isPaid">유료 회원 전용</label>
+                    <input type="checkbox" checked="checked" class="checkbox" id="isPaid" name="isPaid" th:field="*{isPaid}">
+                </div>
+                <!-- submit -->
+                <div>
+                    <button type="submit" class="w-full btn btn-active">수정하기</button>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="mt-5 sm:mx-auto sm:w-full sm:max-w-sm ">
-    </div>
-  </div>
 </div>
 </html>

@@ -47,4 +47,10 @@ public class MemberService {
                         grantedAuthority.getAuthority().equals("ROLE_PAID_MEMBER") ||
                                 grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
     }
+
+    public Member modify(Member member, Boolean isPaid) {
+        member.setIsPaid(isPaid);
+        this.memberRepository.save(member);
+        return member;
+    }
 }

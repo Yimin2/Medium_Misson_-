@@ -4,10 +4,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.security.Principal;
 
 @RequiredArgsConstructor // 생성자 자동 생성
 @Controller
@@ -39,7 +42,6 @@ public class MemberController {
         return "redirect:/member/login";
         //성공시 로그인 화면으로 리턴
     }
-
     @GetMapping("/login")
     public String login() {
         return "domain/home/home/member/login_form";
@@ -48,7 +50,17 @@ public class MemberController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/myPage")
-    public String myPage() {
+    public String myPage(MemberUpdateForm memberUpdateForm, Model model, Principal principal) {
+        Member member = this.memberService.getMember(principal.getName());
+        model.addAttribute("username", principal.getName());
+        memberUpdateForm.setIsPaid(member.getIsPaid());
         return "domain/home/home/member/myPage";
+    }
+
+    @PostMapping("/myPage")
+    public String myPage(@Valid MemberUpdateForm memberUpdateForm, Principal principal) {
+        Member member = this.memberService.getMember(principal.getName());
+        memberService.modify(member, memberUpdateForm.getIsPaid());
+        return "redirect:/member/myPage";
     }
 }
