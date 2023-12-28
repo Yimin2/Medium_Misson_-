@@ -29,6 +29,8 @@ public class MemberSecurityService implements UserDetailsService {
         List<GrantedAuthority> authorities = new ArrayList<>();
         if ("admin".equals(username)) {
             authorities.add(new SimpleGrantedAuthority(MemberRole.ADMIN.getValue()));
+        } else if (member.getIsPaid()){
+            authorities.add(new SimpleGrantedAuthority(MemberRole.PAID_MEMBER.getValue()));
         } else {
             authorities.add(new SimpleGrantedAuthority(MemberRole.MEMBER.getValue()));
         }

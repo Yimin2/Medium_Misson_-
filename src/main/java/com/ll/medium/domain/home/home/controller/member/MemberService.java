@@ -2,9 +2,10 @@ package com.ll.medium.domain.home.home.controller.member;
 
 import com.ll.medium.domain.home.home.controller.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import java.security.Principal;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -31,5 +32,16 @@ public class MemberService {
         } else {
             throw new DataNotFoundException("member not found");
         }
+    }
+
+    public boolean hasPaidAccess(Principal principal) {
+        if (principal == null) {
+            return false;
+        }
+
+        Authentication authentication = (Authentication) principal;
+
+        return authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_PREMIUM_MEMBER"));
     }
 }

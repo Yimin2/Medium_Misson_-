@@ -1,6 +1,5 @@
 package com.ll.medium.domain.home.home.controller.article;
 
-import com.ll.medium.domain.home.home.controller.comment.CommentForm;
 import com.ll.medium.domain.home.home.controller.member.Member;
 import com.ll.medium.domain.home.home.controller.member.MemberService;
 import jakarta.validation.Valid;
@@ -48,9 +47,13 @@ public class ArticleController {
     }
 
     @GetMapping("/{id}")
-    public String detail(Model model, @PathVariable("id") Long id, CommentForm commentForm) {
-        Article article = this.articleService.getArticle(id);
+    public String detail(Model model, @PathVariable("id") Long id, Principal principal) {
+        Article article = articleService.getArticle(id);
         model.addAttribute("article", article);
+        if (article.getIsPaid() && !memberService.hasPaidAccess(principal)) {
+            // 유료 회원 전용 게시글에 대한 접근 제한 처리
+            return "redirect:/post/list";
+        }
         return "domain/home/home/article/article_detail";
     }
 

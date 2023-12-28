@@ -8,6 +8,7 @@
         <th>번호</th>
         <th>제목</th>
         <th>작성자</th>
+        <th>유료글</th>
         <th>작성일시</th>
       </tr>
       </thead>
@@ -19,6 +20,14 @@
         </td>
         <td>
           <a th:href="@{|/post/b/${article.author.username}|}" th:if="${article.author != null}" th:text="${article.author.username}"></a>
+        </td>
+        <td>
+          <th:block th:if="${article.isPaid}">
+            <input type="checkbox" class="checkbox" disabled checked />
+          </th:block>
+          <th:block th:unless="${article.isPaid}">
+            <input type="checkbox" class="checkbox" disabled />
+          </th:block>
         </td>
         <td th:text="${#temporals.format(article.createDate, 'yyyy-MM-dd HH:mm')}"></td>
       </tr>
