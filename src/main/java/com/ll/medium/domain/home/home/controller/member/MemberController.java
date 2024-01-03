@@ -20,8 +20,12 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/join")
-    public String join(MemberJoinForm memberJoinForm) {
-        return "domain/home/home/member/join_form";
+    public String join(MemberJoinForm memberJoinForm, Principal principal) {
+        if (principal != null) {
+            return "domain/home/home/main";
+        } else {
+            return "domain/home/home/member/join_form";
+        }
     }
 
     @PostMapping("/join")
@@ -42,9 +46,14 @@ public class MemberController {
         return "redirect:/member/login";
         //성공시 로그인 화면으로 리턴
     }
+
     @GetMapping("/login")
-    public String login() {
-        return "domain/home/home/member/login_form";
+    public String login(Principal principal) {
+        if (principal != null) {
+            return "domain/home/home/main";
+        } else {
+            return "domain/home/home/member/login_form";
+        }
     }
     // POST는 security에서 처리
 
@@ -61,6 +70,6 @@ public class MemberController {
     public String myPage(@Valid MemberUpdateForm memberUpdateForm, Principal principal) {
         Member member = this.memberService.getMember(principal.getName());
         memberService.modify(member, memberUpdateForm.getIsPaid());
-        return "redirect:/member/myPage";
+        return "redirect:/member/logout";
     }
 }
