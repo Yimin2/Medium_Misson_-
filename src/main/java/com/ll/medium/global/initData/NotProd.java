@@ -25,7 +25,7 @@ public class NotProd {
                 memberService.join("user" + i, "1234", isPaid);
             });
             // 샘플 게시글 데이터 생성
-            IntStream.rangeClosed(1, 100)
+            IntStream.rangeClosed(1, 500)
                     .forEach(i -> {
                         boolean isPaid = i > 50;
                         articleService.write(
