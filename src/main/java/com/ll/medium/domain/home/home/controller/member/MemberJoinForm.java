@@ -18,4 +18,6 @@ public class MemberJoinForm {
 
     @NotEmpty(message = "비밀번호 확인은 필수항목입니다.")
     private String passwordConfirm;
+
+    private Boolean isPaid;
 }

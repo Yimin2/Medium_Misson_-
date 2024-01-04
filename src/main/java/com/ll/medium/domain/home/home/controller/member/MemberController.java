@@ -41,7 +41,7 @@ public class MemberController {
             // password와 passwordConfirm 일치하지 않으면 메세지와 함께 가입페이지 리턴
             return "domain/home/home/member/join_form";
         }
-        memberService.join(memberJoinForm.getUsername(), memberJoinForm.getPassword());
+        memberService.join(memberJoinForm.getUsername(), memberJoinForm.getPassword(), memberJoinForm.getIsPaid());
         // 회원가입 처리
         return "redirect:/member/login";
         //성공시 로그인 화면으로 리턴

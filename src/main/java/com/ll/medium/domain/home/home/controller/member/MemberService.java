@@ -16,12 +16,13 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     // userRepository를 사용하여 Member 데이터를 생성하는 join 메서드
-    public Member join(String username, String password) {
+    public Member join(String username, String password, Boolean isPaid) {
         Member member = new Member();
         member.setUsername(username);
         member.setPassword(passwordEncoder.encode(password));
         // 시큐리티 암호화 사용
         // BCryptPasswordEncoder 객체를 직접 생성하지 않고, 빈으로 등록 후 객체를 주입받아 사용
+        member.setIsPaid(isPaid);
         this.memberRepository.save(member);
         return member;
     }
