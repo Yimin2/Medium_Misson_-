@@ -19,15 +19,13 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    @PreAuthorize("isAnonymous()")
     @GetMapping("/join")
-    public String join(MemberJoinForm memberJoinForm, Principal principal) {
-        if (principal != null) {
-            return "domain/home/home/main";
-        } else {
+    public String join(MemberJoinForm memberJoinForm) {
             return "domain/home/home/member/join_form";
-        }
     }
 
+    @PreAuthorize("isAnonymous()")
     @PostMapping("/join")
     public String join(@Valid MemberJoinForm memberJoinForm, BindingResult bindingResult) {
         // 회원 정보 검사, join 메서드의 회원정보를 @Valid로 객체 유효성 검사, BindingResult로 검사 결과 저장
@@ -47,13 +45,10 @@ public class MemberController {
         //성공시 로그인 화면으로 리턴
     }
 
+    @PreAuthorize("isAnonymous()")
     @GetMapping("/login")
-    public String login(Principal principal) {
-        if (principal != null) {
-            return "domain/home/home/main";
-        } else {
+    public String login() {
             return "domain/home/home/member/login_form";
-        }
     }
     // POST는 security에서 처리
 
@@ -66,6 +61,7 @@ public class MemberController {
         return "domain/home/home/member/myPage";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/myPage")
     public String myPage(@Valid MemberUpdateForm memberUpdateForm, Principal principal) {
         Member member = this.memberService.getMember(principal.getName());
